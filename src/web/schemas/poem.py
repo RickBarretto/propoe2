@@ -13,12 +13,6 @@ class IsPoem(Protocol):
     @property
     def evaluation(self) -> DomainEvaluation: ...
 
-
-class EvaluationCounting(BaseModel):
-    evaluations: int
-    rhymes: int
-
-
 class RhymeScore(BaseModel):
     structure: float
     internal: float
@@ -34,7 +28,6 @@ class EvaluationScore(BaseModel):
 
 class Evaluation(BaseModel):
     scores: EvaluationScore
-    countings: EvaluationCounting
 
     @staticmethod
     def from_domain(evaluation: DomainEvaluation) -> "Evaluation":
@@ -49,11 +42,7 @@ class Evaluation(BaseModel):
             ),
         )
 
-        schema_couting = EvaluationCounting(
-            evaluations=evaluation.count, rhymes=evaluation.count_rhyme
-        )
-
-        return Evaluation(scores=schema_score, countings=schema_couting)
+        return Evaluation(scores=schema_score)
 
 
 class Poem(BaseModel):
