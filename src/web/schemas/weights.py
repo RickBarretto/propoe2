@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 
 from src import api as domain
+from src.web.schemas._util import to_kebab
+
 
 __all__ = ["Weights"]
 
@@ -22,9 +24,5 @@ class Weights(BaseModel):
         )
 
     class Config:
-        @staticmethod
-        def to_kebab(x: str) -> str:
-            return x.replace("_", "-")
-
         alias_generator = to_kebab
         populate_by_name = True

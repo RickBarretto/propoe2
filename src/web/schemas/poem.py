@@ -2,6 +2,7 @@ from typing import Protocol
 from pydantic import BaseModel
 
 from src.model.poem_evaluation import Evaluation as DomainEvaluation
+from src.web.schemas._util import to_kebab
 
 __all__ = ["Poem"]
 
@@ -12,7 +13,6 @@ class IsPoem(Protocol):
 
     @property
     def evaluation(self) -> DomainEvaluation: ...
-
 
 
 class Evaluation(BaseModel):
@@ -30,15 +30,11 @@ class Evaluation(BaseModel):
             internal_rhyme=model.intern_rhyme_score,
             rhythmic_structure=model.rhyme_structure_score,
             tonic_position=model.stress_score,
-            vocal_harmony=model.consonant_rhyme_score, 
-            score=model.score_result
+            vocal_harmony=model.consonant_rhyme_score,
+            score=model.score_result,
         )
-    
-    class Config:
-        @staticmethod
-        def to_kebab(x: str) -> str:
-            return x.replace("_", "-")
 
+    class Config:
         alias_generator = to_kebab
         populate_by_name = True
 
