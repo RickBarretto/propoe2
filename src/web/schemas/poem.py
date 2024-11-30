@@ -33,6 +33,14 @@ class Evaluation(BaseModel):
             vocal_harmony=model.consonant_rhyme_score, 
             score=model.score_result
         )
+    
+    class Config:
+        @staticmethod
+        def to_kebab(x: str) -> str:
+            return x.replace("_", "-")
+
+        alias_generator = to_kebab
+        populate_by_name = True
 
 
 class Poem(BaseModel):
