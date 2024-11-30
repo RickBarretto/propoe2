@@ -14,29 +14,25 @@ class IsPoem(Protocol):
     def evaluation(self) -> DomainEvaluation: ...
 
 
-class EvaluationScore(BaseModel):
+
+class Evaluation(BaseModel):
     vocal_harmony: float
     accentuation: float
     tonic_position: float
     internal_rhyme: float
     rhythmic_structure: float
-
-
-class Evaluation(BaseModel):
-    scores: EvaluationScore
     score: float
 
     @staticmethod
     def from_domain(model: DomainEvaluation) -> "Evaluation":
-        schema_score = EvaluationScore(
+        return Evaluation(
             accentuation=model.accent_score,
             internal_rhyme=model.intern_rhyme_score,
             rhythmic_structure=model.rhyme_structure_score,
             tonic_position=model.stress_score,
-            vocal_harmony=model.consonant_rhyme_score
+            vocal_harmony=model.consonant_rhyme_score, 
+            score=model.score_result
         )
-
-        return Evaluation(scores=schema_score, score=model.score_result)
 
 
 class Poem(BaseModel):
